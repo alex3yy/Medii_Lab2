@@ -8,19 +8,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Zaharia_Alexandru_Lab2.Data;
 
 [assembly: HostingStartup(typeof(Zaharia_Alexandru_Lab2.Areas.Identity.IdentityHostingStartup))]
-namespace Zaharia_Alexandru_Lab2.Areas.Identity
-{
-    public class IdentityHostingStartup : IHostingStartup
-    {
+
+namespace Zaharia_Alexandru_Lab2.Areas.Identity {
+
+    public class IdentityHostingStartup : IHostingStartup {
+
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<IdentityContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("IdentityContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<IdentityContext>();
+                services.AddDefaultIdentity<IdentityUser>(options =>
+                    options.SignIn.RequireConfirmedAccount = true)
+                        .AddRoles<IdentityRole>()
+                        .AddEntityFrameworkStores<IdentityContext>();
             });
         }
     }
